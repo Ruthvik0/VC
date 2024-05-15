@@ -1,0 +1,80 @@
+<section>
+  <div class="tabs">
+    <a class="active" data-ui="#createRoom">Create Room</a>
+    <a data-ui="#joinRoom" >Join Room</a>
+  </div>
+  <form id="createRoom" class="page padding active">
+    <div class="field label border">
+      <input name="roomId" value={{roomId}} readonly autocomplete="off"/>
+      <label>RoomId</label>
+    </div>
+    <div class="field label border">
+      <input name="displayName" autocomplete="off"/>
+      <label>Display Name</label>
+    </div>
+    <button type="submit" class="border">Create</button>
+  </form>
+  <form id="joinRoom" class="page padding">
+    <div class="field label border">
+      <input name="roomId" autocomplete="off"/>
+      <label>RoomId</label>
+    </div>
+    <div class="field label border">
+      <input name="displayName" autocomplete="off"/>
+      <label >Display Name</label>
+    </div>
+    <button type="submit" class="border">Join</button>
+  </form>
+</section>
+
+<script type="text/javascript">
+  const createRoomForm = document.getElementById("createRoom");
+  const joinRoomForm = document.getElementById("joinRoom");
+
+  createRoomForm.addEventListener("submit",async (e)=>{
+    e.preventDefault();
+    const data = new FormData(e.target);
+    let requestBody = {};
+    for (const [key, value] of data) {
+      requestBody[key] = value;
+    }
+    
+    let response = await fetch("/createRoom",{
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(requestBody),
+    });
+    
+    if(response.status === 400){
+      let data = await response.json();
+      alert(data.error);
+    }else if(response.ok){
+      let data = await response.json();
+      window.location.replace(`/room/${data.roomId}`);
+    }
+  });
+
+  joinRoomForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const data = new FormData(e.target);
+    let requestBody = {};
+    for (const [key, value] of data) {
+      requestBody[key] = value;
+    }
+    
+    let response = await fetch("/joinRoom",{
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(requestBody),
+    });
+
+    if(response.status === 400){
+      let data = await response.json();
+      console.log(data);
+      alert(data.error);
+    }else if(response.ok){
+      let data = await response.json();
+      window.location.href = `/room/${data.roomId}`;
+    }
+  });
+</script>
