@@ -69,13 +69,12 @@
             text: transcript,
             from: "en",
             to: "hi",
-        });
-
-        socket.on("translateA", (data) => {
+        });  
+    };
+    socket.on("translateA", (data) => {
             console.log(data.transcript);
             speakTranslatedText(data.transcript);
         });
-    };
 
     recognition.onend = function () {
         console.log("Recognition stopped");
