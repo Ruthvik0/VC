@@ -30,9 +30,6 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("audio", (data) => {
-        console.log(data.chunks);
-    });
 });
 
 app.get("/", (req, res) => {

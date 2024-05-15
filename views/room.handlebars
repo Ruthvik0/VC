@@ -39,16 +39,6 @@
                 video: true,
             });
             localVideoElement.srcObject = localStream;
-            const recorder = new MediaRecorder(stream, { type: "audio/webm" });
-               recorder.addEventListener('dataavailable', event => {
-                 if (typeof event.data === 'undefined') return;
-                   if (event.data.size === 0) return;
-                   chunks.push(event.data);
-                   socket.emit("audio",{chunks})
-                 });
-               recorder.addEventListener('stop', () => {
-                 chunks = [];
-               });
             remoteVideoElement.srcObject = null;
         } catch (error) {
             console.error("Error accessing user media:", error);
@@ -70,7 +60,6 @@
     let recognition = new webkitSpeechRecognition();
     recognition.lang = "en-US";
     recognition.continuous = true;
-    recognition.interm = true;
 
     recognition.onresult = async function (event) {
         let result = event.results[event.results.length - 1];
@@ -90,7 +79,7 @@
 
     recognition.onend = function () {
         console.log("Recognition stopped");
-        //recognition.start();
+        recognition.start();
     };
     
     function getVoiceForLanguage(language) {
@@ -99,5 +88,5 @@
             .filter((v) => v.lang === language);
         return voices.length > 0 ? voices[0] : null;
     }
-    //recognition.start();
+    recognition.start();
 </script>
