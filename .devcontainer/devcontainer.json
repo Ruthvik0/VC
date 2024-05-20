@@ -3,7 +3,11 @@
 {
 	"name": "Node.js",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm"
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+	"features": {
+		"ghcr.io/ebaskoro/devcontainer-features/emscripten:1": {},
+		"ghcr.io/lee-orr/rusty-dev-containers/cargo-make:0": {}
+	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
